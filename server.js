@@ -31,7 +31,7 @@ function start() {
     .prompt({
       name: 'action',
       type: 'rawlist',
-      message: 'What would you like to do?',
+      message: 'What would you like to do ?',
       choices: [
         'View All Employees', //
         'View All Departments', //
@@ -40,12 +40,12 @@ function start() {
         'Add Department',//
         'Add Role',//
         'Update Employee Role',
-        'Remove Employee',
+        'Remove Employee'
         // "View All By Department",
         // "View All Employees By Manager",
         // "Remove Employee",
         // "Update Employee Manager"
-      ],
+      ]
     })
     .then(function (answer) {
       switch (answer.action) {
@@ -74,20 +74,26 @@ function start() {
           break;
 
         case 'Update Employee Role':
-          updateEmployeeManager();
+          updateEmployeeRole();
+          break;
 
         case 'Remove Employee':
           removeEmployee();
+          break;
       }
     });
 }
 
 function allEmployees() {
-  connection.query('SELECT * FROM employee', function (err, res) {
+  connection.query('SELECT first_name, last_name, role_id, title, salary, manager_id FROM employee INNER JOIN role ON employee.role_id = role.id ', function (err, res) {
+    // if (err) throw err;
+  // connection.query("SELECT * FROM employee" , function(err, res){
     if (err) throw err;
     console.table(res);
     start();
   });
+
+ 
 }
 
 function viewDepartments() {
@@ -183,61 +189,69 @@ function addRole() {
 }
 
 // function removeEmployee() {
-//   inquirer
-//     .prompt([
-//       {
-//         name: 'first_name',
-//         type: 'input',
-//         message: 'What is employee\'s first name?',
-//       },
-//       {
-//         name: 'last_name',
-//         type: 'input',
-//         message: 'What is employee\'s last name?',
-//       },
-//       {
-//         name: 'role_id',
-//         type: 'number',
-//         message: 'What is employee\'s role_id?',
-//       },
-//       {
-//         name: 'manager_id',
-//         type: 'number',
-//         message: 'What is manager id?',
-//       },
-//     ])
-//     .then((employee) => {
-//       connection.query('DELETE FROM employee WHERE ? ', employee, function (
-//         err,
-//         res
-//       ) {
-//         if (err) throw err;
-//         start();
-//       });
-//     });
-// }
+  //  const employeelist = connection.query("SELECT id, first_name, last_name FROM employee", function (err, res){
+  //    if (err) throw err;
+  //   //  console.table(res);
+  //  });
+function removeEmployee(){
+  inquirer
+    .prompt([
+      {
+        name: "first_name",
+        type: "text",
+        message: "first name?"
+        
+    },
+      {
+        name: "last_name",
+        type: "text",
+        message: "last name?"
+      }
+    ])
+    .then((answer) => {
+      connection.query('DELETE FROM employee WHERE first_name = ? AND last_name = ? ', [answer.first_name, answer.last_name], function (
+        err,
+        res
+      ) {
+        if (err) throw err;
+        start();
+      });
+    });
+  }
 
-// function updateEmployeeRole() {
-//   inquirer.prompt([
-//     {
-//       name: 'title',
-//       type: 'text',
-//       message: 'What is employees Role?',
-//     },
-//     { name: 'salary', type: 'number', message: 'What is employees salary?' },
-//     {
-//       name: 'department_id',
-//       type: 'number',
-//       message: 'What is the employees id?',
-//     },
-//   ]).then((role) => {
-//       conncection.query("INSERT INTO role SET ?", role, function (
-//         err,
-//         res
-//       ) {
-//           if (err) throw err;
 
-//           start();
-//       });
-//     });
-// }
+function updateEmployeeRole() {
+  inquirer.prompt([
+    {
+        name: "first_name",
+        type: "text",
+        message: "What is the employees first name?"
+    },
+
+    {
+      name: "last_name",
+      type: "text",
+      message: "What is the employees last name?"
+
+    },
+    
+    {
+      name: "role_id",
+      type: "number",
+      message: "What is the new role id "
+    }
+
+
+]).then((answers) => {
+      connection.query("UPDATE employee SET role_id = ?  WHERE first_name = ? AND last_name = ?", [answers.role_id, answers.first_name, answers.last_name] , function (
+        err,
+        res
+      ) {
+          if (err) throw err;
+
+          start();
+      });
+    });
+}
+
+
