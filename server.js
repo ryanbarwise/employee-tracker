@@ -30,8 +30,8 @@ function start() {
   inquirer
     .prompt({
       name: 'action',
-      type: 'rawlist',
-      message: 'What would you like to do ?',
+      type: 'list',
+      message: 'What would you like to do',
       choices: [
         'View All Employees', //
         'View All Departments', //
@@ -117,17 +117,17 @@ function addEmployee() {
       {
         name: 'first_name',
         type: 'input',
-        message: 'What is your first name?',
+        message: 'What is employee\'s first name?',
       },
       {
         name: 'last_name',
         type: 'input',
-        message: 'What is your last name?',
+        message: 'What is employee\'s last name?',
       },
       {
         name: 'role_id',
         type: 'number',
-        message: 'What is employee role? id',
+        message: 'What is employee\'s role id',
       },
       {
         name: 'manager_id',
@@ -199,13 +199,13 @@ function removeEmployee(){
       {
         name: "first_name",
         type: "text",
-        message: "first name?"
+        message: "What is employee\'s first name"
         
     },
       {
         name: "last_name",
         type: "text",
-        message: "last name?"
+        message: "What is employee\'s last name?"
       }
     ])
     .then((answer) => {
@@ -225,20 +225,20 @@ function updateEmployeeRole() {
     {
         name: "first_name",
         type: "text",
-        message: "What is the employees first name?"
+        message: "What is the employee\'s first name?"
     },
 
     {
       name: "last_name",
       type: "text",
-      message: "What is the employees last name?"
+      message: "What is the employee\'s last name?"
 
     },
     
     {
       name: "role_id",
       type: "number",
-      message: "What is the new role id "
+      message: "What is the new role id of this employee? "
     }
 
 
