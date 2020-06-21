@@ -7,7 +7,7 @@
 
 
   ## Description
- A command line application that allows the user to add and view departments, roles, and employees as well as updating employee roles and deleting employees from a database
+ A command line application that allows the user to addview departments, roles, and employees as well as the option of updating employee roles and deleting employees from a database
 
   ## Table of Contents
   1. [License](#license)
